@@ -2,8 +2,8 @@
 //  StickerView.h
 //  StickerView
 //
-//  Created by macmini on 05/02/19.
-//  Copyright © 2019 IP. All rights reserved.
+//  Created by Ilesh on 05/02/19.
+//  Copyright © 2019 Ilesh. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

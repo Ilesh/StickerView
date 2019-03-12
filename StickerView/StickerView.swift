@@ -2,7 +2,8 @@
 //  StickerView.swift
 //  StickerView
 //
-//  Copyright © All rights reserved.
+//  Created by Ilesh on 05/02/19.
+//  Copyright © 2019 Ilesh. All rights reserved.
 //
 
 import UIKit
@@ -421,6 +422,7 @@ public class StickerView: UIView {
     }
 }
 
+// MARK: - Gesture
 extension StickerView: UIGestureRecognizerDelegate {
     private func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
