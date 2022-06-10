@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'StickerView'
-  s.version          = 'v1.1'
+  s.version          = '1.1'
   s.summary          = 'StickerView is provide way to add new image/view over the UIImageview/UIView. It is help to mamage it like the sicker.'
  
   s.description      = <<-DESC
@@ -10,7 +10,7 @@ StickerView is provide way to add new image/view over the UIImageview/UIView. It
   s.homepage         = 'https://github.com/Ilesh/StickerView'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Ilesh Panchal' => 'ilesh.panchal1991@gmail.com' }
-  s.source           = { :git => 'https://github.com/Ilesh/StickerView.git', :branch => "master" :tag => "v1.1" }
+  s.source           = { :git => 'https://github.com/Ilesh/StickerView.git', :branch => 'master'. :tag => s.version.to_s }
   s.ios.deployment_target = '10.0'
   s.source_files     = 'StickerView/StickerView.swift'
  
