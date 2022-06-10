@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'StickerView'
-  s.version          = '1.0'
+  s.version          = '1.1'
   s.summary          = 'StickerView is provide way to add new image/view over the UIImageview/UIView. It is help to mamage it like the sicker.'
  
   s.description      = <<-DESC
