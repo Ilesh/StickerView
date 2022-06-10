@@ -62,6 +62,9 @@ public class StickerView: UIView {
             }
         }
     }
+    
+    /// Allow to sticker view go out of frame or not. default value is True.
+    public var isAllowToGoOutOfFrame: Bool = true
     /// Enable the rotate/resize handler or not. Default value is YES.
     public var enableRotate:Bool = true{
         didSet {
@@ -341,6 +344,11 @@ public class StickerView: UIView {
             if let delegate = self.delegate {
                 delegate.stickerViewDidEndMoving(self)
             }
+            // Sticker view isAllowToGoOutOfFrame = false then reset the position if out side the frame.
+            if !isAllowToGoOutOfFrame {
+                delay(0.5) { self.checkPositionAndSet() }
+            }
+            
         default:
             break
         }
@@ -422,9 +430,51 @@ public class StickerView: UIView {
     }
 }
 
-// MARK: - Gesture
 extension StickerView: UIGestureRecognizerDelegate {
-    private func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
 }
+private extension StickerView {
+    
+    /// This function would help to delay the execution
+    /// - Parameters:
+    ///   - delay: delay duration ex: 0.5 sec
+    ///   - closure: completion callback.
+    func delay(_ delay:Double, closure:@escaping ()->()) {
+        DispatchQueue.main.asyncAfter(
+            deadline: DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: closure
+        )
+    }
+    
+    /// This function would check the sticker view position and if go out of frame the it will reset the position with animation.
+    func checkPositionAndSet(){
+        if self.frame.origin.x < 0 {
+            let aFrame = CGRect(x: 0, y: self.frame.origin.y, width: self.frame.width, height: self.frame.height)
+            updateFramWithAnimation(frame: aFrame)
+        }
+        if self.frame.origin.y < 0 {
+            let aFrame = CGRect(x: self.frame.origin.x, y: 0, width: self.frame.width, height: self.frame.height)
+            updateFramWithAnimation(frame: aFrame)
+        }
+        
+        if (self.frame.origin.x + self.frame.size.width) > self.superview!.frame.size.width {
+            let aFrame = CGRect(x: (self.superview!.frame.size.width - self.frame.size.width), y: self.frame.origin.y, width: self.frame.width, height: self.frame.height)
+            updateFramWithAnimation(frame: aFrame)
+        }
+        
+        if (self.frame.origin.y + self.frame.size.height) > self.superview!.frame.size.height {
+            let aFrame = CGRect(x: self.frame.origin.x, y: (self.superview!.frame.size.height - self.frame.size.height), width: self.frame.width, height: self.frame.height)
+            updateFramWithAnimation(frame: aFrame)
+        }
+    }
+    
+    func updateFramWithAnimation(frame: CGRect) {
+        UIView.animate(withDuration: 0.1, delay: 0.00, options: .curveEaseOut, animations: {
+            self.transform = CGAffineTransform(rotationAngle: CGFloat(0))
+            self.frame = frame
+            self.layoutIfNeeded()
+        }, completion: nil)
+    }
+}
+
